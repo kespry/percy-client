@@ -49,6 +49,9 @@ module Percy
         parsed_uri = URI.parse(config.api_url)
         base_url = "#{parsed_uri.scheme}://#{parsed_uri.host}:#{parsed_uri.port}"
 
+        puts '####'
+        puts config.access_token.inspect
+        puts '####'
         @connection = Faraday.new(url: base_url) do |faraday|
           faraday.request :token_auth, config.access_token if config.access_token
           faraday.use Percy::Client::Connection::NiceErrorMiddleware
