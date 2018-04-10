@@ -53,10 +53,9 @@ module Percy
         puts config.access_token.inspect
         puts '####'
         @connection = Faraday.new(url: base_url) do |faraday|
-          faraday.response :logger, ::Logger.new(STDOUT)
-          faraday.request :logger, ::Logger.new(STDOUT)
           faraday.request :token_auth, config.access_token if config.access_token
           faraday.use Percy::Client::Connection::NiceErrorMiddleware
+          faraday.use Faraday::Response::Logger
           faraday.adapter :excon
         end
 
